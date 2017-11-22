@@ -1,0 +1,2 @@
+# oppa
+OPPA, Otimizador de posicionamento de pontos de acesso, é um protótipo que dada uma certa planta em formato XML calcula através da combinação de algoritmo genético e hill-climbing a quantidade e a posição de pontos de acesso necessários para cobrir a área com critérios determinados pelo usuário. Apesar de pré-configurado, é necessários que o usuário entre com alguns parâmetros necessários para especificar o problema e configurar as heurísticas. 
