@@ -27,6 +27,7 @@ public class JanelaAjustes extends javax.swing.JFrame {
         initComponents();
         this.parametros = parametros;
         this.botao = botao;
+        this.jbSalvar.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -66,6 +67,8 @@ public class JanelaAjustes extends javax.swing.JFrame {
         jLabelFrequenciaTransmitida = new javax.swing.JLabel();
         jCoberturaDesejada = new javax.swing.JSpinner();
         jLabelPercentualCobertura = new javax.swing.JLabel();
+        jCoeficienteAtenuacao = new javax.swing.JSpinner();
+        jLabelCoeficienteAtenuacao = new javax.swing.JLabel();
 
         jInternalFrame1.setVisible(true);
 
@@ -166,7 +169,7 @@ public class JanelaAjustes extends javax.swing.JFrame {
 
         jFrequenciaTransmitida.setModel(new javax.swing.SpinnerNumberModel(20, 0, 200, 1));
 
-        jLabelFrequenciaTransmitida.setText("Frequência transmitida (db)");
+        jLabelFrequenciaTransmitida.setText("Potência transmitida (dB)");
         jLabelFrequenciaTransmitida.setPreferredSize(new java.awt.Dimension(275, 17));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -309,25 +312,35 @@ public class JanelaAjustes extends javax.swing.JFrame {
         jLabelPercentualCobertura.setText("Percentual de cobertura  desejada");
         jLabelPercentualCobertura.setPreferredSize(new java.awt.Dimension(275, 17));
 
+        jCoeficienteAtenuacao.setModel(new javax.swing.SpinnerNumberModel(2.0d, 1.0d, 100.0d, 0.5d));
+
+        jLabelCoeficienteAtenuacao.setText("Coeficiente de atenuação");
+        jLabelCoeficienteAtenuacao.setPreferredSize(new java.awt.Dimension(275, 17));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(12, 12, 12)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 649, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(12, 12, 12)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabelCoeficienteAtenuacao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(145, 145, 145)
+                                .addComponent(jCoeficienteAtenuacao, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabelPercentualCobertura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jCoberturaDesejada, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(145, 145, 145)
+                                .addComponent(jCoberturaDesejada, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(59, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jbSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -338,9 +351,13 @@ public class JanelaAjustes extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCoberturaDesejada, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelPercentualCobertura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jCoeficienteAtenuacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabelCoeficienteAtenuacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jbSalvar)
-                .addGap(30, 30, 30))
+                .addGap(8, 8, 8))
         );
 
         pack();
@@ -359,10 +376,12 @@ public class JanelaAjustes extends javax.swing.JFrame {
         double hillClimbing = (Double) this.jPassoHillClimbing.getValue();
         int frequenciaTransmitida = (Integer) this.jFrequenciaTransmitida.getValue();
         int coberturaDesejada = (Integer) this.jCoberturaDesejada.getValue();
+        double coeficicienteAtenuacao = (Double) this.jCoeficienteAtenuacao.getValue();
 
         parametros.setParametros(numeroIndividuos, numeroGeracoes, probabilidadeCrossover,
                 probabilidadeMutacao, individuosSelecionados, elitismo, metodoCalculo,
-                taxaDesejada, taxaAceitavel, hillClimbing, frequenciaTransmitida, coberturaDesejada);
+                taxaDesejada, taxaAceitavel, hillClimbing,
+                frequenciaTransmitida, coberturaDesejada, coeficicienteAtenuacao);
 
         botao.setEnabled(true);
         this.setVisible(false);
@@ -380,29 +399,20 @@ public class JanelaAjustes extends javax.swing.JFrame {
     private void jtMetodoCalculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtMetodoCalculoActionPerformed
         if (this.jtMetodoCalculo.getSelectedIndex() == 1) {
             JSpinner spinner = new JSpinner(new SpinnerNumberModel(2400, 900, 3000, 100));
-            JOptionPane.showMessageDialog(null, spinner, "Frequência de Operação do ITU", 1);
-            parametros.setFrequenciaOperacaoITU((Integer) spinner.getValue());
-            JComboBox combo = new JComboBox();
-            combo.addItem("Casa");
-            combo.addItem("Escritório");
-            combo.addItem("Comercial");
-            JOptionPane.showMessageDialog(null, combo, "Tipo de ambiente do ITU", 1);
-            parametros.setTipoAmbienteITU(combo.getSelectedIndex());
+            JOptionPane.showMessageDialog(null, spinner, "Frequência de Operação", 1);
         } else if (this.jtMetodoCalculo.getSelectedIndex() == 2) {
-            
+
             HashMap<String, Double> perdas = new HashMap<String, Double>();
-            
+
             for (String tipoPerda : parametros.getTiposPerdaCost()) {
                 JSpinner spinner = new JSpinner(new SpinnerNumberModel(5, 0, 500, 0.1));
-                JOptionPane.showMessageDialog(null, spinner, "Valor da perda: " + tipoPerda, 1);
+                JOptionPane.showMessageDialog(null, spinner, "Valor da perda " + tipoPerda, 1);
                 perdas.put(tipoPerda, (Double) spinner.getValue());
             }
-            
-            parametros.setPerdasCost(perdas);
-            
-            
-        }
 
+            parametros.setPerdasCost(perdas);
+        }
+        jbSalvar.setEnabled(true);
     }//GEN-LAST:event_jtMetodoCalculoActionPerformed
 
     private void jtElitismoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtElitismoActionPerformed
@@ -412,8 +422,10 @@ public class JanelaAjustes extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JSpinner jCoberturaDesejada;
+    private javax.swing.JSpinner jCoeficienteAtenuacao;
     private javax.swing.JSpinner jFrequenciaTransmitida;
     private javax.swing.JInternalFrame jInternalFrame1;
+    private javax.swing.JLabel jLabelCoeficienteAtenuacao;
     private javax.swing.JLabel jLabelElitismo;
     private javax.swing.JLabel jLabelFrequenciaTransmitida;
     private javax.swing.JLabel jLabelIndividusoSelecionados;

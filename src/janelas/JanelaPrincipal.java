@@ -21,13 +21,14 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private Problema problema;
     private Planta planta;
     private ArrayList<Frequencia> frequencias;
+    private double[] melhorResultado;
 
     public JanelaPrincipal(Parametros parametros) {
 
         this.parametros = parametros;
         this.setIconImage(new ImageIcon(getClass().getResource("download.png")).getImage());
         initComponents();
-        jbExportar.setEnabled(false);
+        jbVerResultado.setEnabled(false);
         jbCalcular.setEnabled(false);
 
     }
@@ -41,7 +42,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         jtEntradaXml = new javax.swing.JTextField();
         jPanel1 = new javax.swing.JPanel();
         jbConfig = new javax.swing.JButton();
-        jbExportar = new javax.swing.JButton();
+        jbVerResultado = new javax.swing.JButton();
         jbCalcular = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -83,8 +84,13 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             }
         });
 
-        jbExportar.setText("Exportar");
-        jbExportar.setPreferredSize(new java.awt.Dimension(180, 30));
+        jbVerResultado.setText("Ver resultado");
+        jbVerResultado.setPreferredSize(new java.awt.Dimension(180, 30));
+        jbVerResultado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbVerResultadoActionPerformed(evt);
+            }
+        });
 
         jbCalcular.setText("Calcular");
         jbCalcular.setPreferredSize(new java.awt.Dimension(180, 30));
@@ -109,7 +115,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jbConfig, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(96, 96, 96)
-                        .addComponent(jbExportar, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jbVerResultado, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jbCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -126,7 +132,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbConfig, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jbExportar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbVerResultado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jbCalcular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -204,14 +210,12 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
             i++;
         }
-        
+
         /*g.setColor(Color.black);
          g.fillRect(
                     0, (int) (planta.maximoY * f + 10 + 30 + 10),
                     jPanel1.getWidth(),
                     30);*/
-           
-
     }
     private void jbConfigActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbConfigActionPerformed
         JanelaAjustes ajustes = new JanelaAjustes(this.parametros, this.jbCalcular);
@@ -223,7 +227,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jtEntradaXmlActionPerformed
 
     private void jbAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAbrirActionPerformed
-
+      
         JSpinner spinner = new JSpinner(new SpinnerNumberModel(0.1, 0.0, 5.0, 0.1));
         JOptionPane.showMessageDialog(null, spinner, "Discretização da planta", 1);
         parametros.setDiscretizacao((Double) spinner.getValue());
@@ -239,39 +243,42 @@ public class JanelaPrincipal extends javax.swing.JFrame {
             planta.Monta(arquivo, parametros.getDiscretizacao());
 
         }
-        
+
         ArrayList<String> tiposPerdasCost = new ArrayList<String>();
-        for(Parede p : planta.paredes){
-            if(!tiposPerdasCost.contains(p.getTipoParede())){
+        for (Parede p : planta.paredes) {
+            if (!tiposPerdasCost.contains(p.getTipoParede())) {
                 tiposPerdasCost.add(p.getTipoParede());
             }
         }
-        
-        if (tiposPerdasCost.size() > 0)
+
+        if (tiposPerdasCost.size() > 0) {
             parametros.setTipoPerdasCost(tiposPerdasCost);
+        }
 
         double fatorDeCorrecao = Math.min(jPanel1.getWidth() / planta.maximoX, jPanel1.getHeight() / planta.maximoY);
         Graphics g = jPanel1.getGraphics();
         DesenhaParedes(planta.paredes, parametros.getDiscretizacao(), fatorDeCorrecao, g);
-        
+
 
     }//GEN-LAST:event_jbAbrirActionPerformed
 
     private void jbCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCalcularActionPerformed
 
-        problema = parametros.getMetodoCalculo() == 1 ? 
-                new ITU(parametros.getTipoAmbienteITU(), parametros.getFrequenciaOperacaoITU()) : 
-                new Cost231();
-        
+        if (parametros.getMetodoCalculo() == 1) {
+            problema = new ITU(parametros.getCoeficienteAtenuacao(), parametros.getFrequenciaOperacaoITU());
+        } else {
+            problema = new Cost231(parametros.getCoeficienteAtenuacao());
+        }
+
         problema.potenciaTransmitida = parametros.getPotenciaTransmitida();
         problema.planta = planta;
-        
-        
-        
-        for(Parede p : problema.planta.paredes){
-           p.setPerda(parametros.getPerdasCost().get(p.getTipoParede()));
+
+        if (parametros.getMetodoCalculo() == 2) {
+            for (Parede p : problema.planta.paredes) {
+                p.setPerda(parametros.getPerdasCost().get(p.getTipoParede()));
+            }
         }
-        
+
         HashMap<Integer, Frequencia> mapa = new HashMap<Integer, Frequencia>();
         mapa.put(54, new Frequencia(-64, 0, 54, new Color(128, 0, 0)));
         mapa.put(48, new Frequencia(-66, -64, 48, new Color(255, 0, 0)));
@@ -288,8 +295,8 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         AlgoritmoGeneticoIterativo iterativo = new AlgoritmoGeneticoIterativo(parametros, problema);
         iterativo.Executa();
- 
-        double[] melhorResultado = iterativo.getResultado();
+
+        melhorResultado = iterativo.getResultado();
         problema.avalia(melhorResultado);
         problema.planta.pas = new ArrayList<PontoAcesso>();
         for (int i = 0; i < (iterativo.getResultado().length / 2); i++) {
@@ -299,8 +306,18 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         Graphics g = jPanel1.getGraphics();
         DesenhaHeatMap(problema.planta.celulas, problema.planta.pas, problema.planta.discretizacao, f, g);
         DesenhaParedes(problema.planta.paredes, problema.planta.discretizacao, f, g);
-
+        jbVerResultado.setEnabled(true);
     }//GEN-LAST:event_jbCalcularActionPerformed
+
+    private void jbVerResultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVerResultadoActionPerformed
+        String resultado = "\n";
+        for (int j = 0; j < melhorResultado.length / 2; j++) {
+            resultado += "Ponto de Acesso " + (j + 1) + ":     x: " + String.format("%.2f", melhorResultado[j])  + "     y:" + String.format("%.2f", melhorResultado[j+1]) +"     \n";
+            
+        }
+        resultado += "\n";
+        JOptionPane.showMessageDialog(null, resultado, "Resultado", JOptionPane.PLAIN_MESSAGE);
+    }//GEN-LAST:event_jbVerResultadoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;
@@ -308,7 +325,7 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jbAbrir;
     private javax.swing.JButton jbCalcular;
     private javax.swing.JButton jbConfig;
-    private javax.swing.JButton jbExportar;
+    private javax.swing.JButton jbVerResultado;
     private javax.swing.JTextField jtEntradaXml;
     // End of variables declaration//GEN-END:variables
 

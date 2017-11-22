@@ -157,10 +157,10 @@ public class AlgoritmoGenetico {
                 //System.out.printf("{ x: %.2f, y: %.2f } ", melhorIndividuo[2], melhorIndividuo[3]);
             }
             populacaoUm = populacaoDois.clone();
-            System.out.printf("%d\t%.5f\t%.5f\t%.5f\t%.5f\n", geracaoAtual, melhorFitness, maiorFitness, menorFitness, (somaFitness / numeroIndividuos));
-            /*System.out.printf("%.5f", maiorFitness);
-            System.out.printf("%.5f", menorFitness);
-            System.out.printf("%.5f", (somaFitness / numeroIndividuos));*/
+            //System.out.printf("%d\t%.5f\t%.5f\t%.5f\t%.5f\n", geracaoAtual, melhorFitness, maiorFitness, menorFitness, (somaFitness / numeroIndividuos));
+            //System.out.printf("%.5f", maiorFitness);
+            //System.out.printf("%.5f", menorFitness);
+            //System.out.printf("%.5f", (somaFitness / numeroIndividuos));
             somaFitness = 0;
             menorFitness = Double.MAX_VALUE;
             maiorFitness = -Double.MAX_VALUE;

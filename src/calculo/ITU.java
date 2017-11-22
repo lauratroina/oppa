@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 public class ITU extends Problema {
 
-    private int tipoAmbiente;
     private int frequenciaOperacao;
+    private double coeficienteAtenuacao;
 
-    public ITU(int tipoAmbiente, int frequenciaOperacao) {
-        this.tipoAmbiente = tipoAmbiente;
+    public ITU(double coeficienteAtenuacao, int frequenciaOperacao) {
+        this.coeficienteAtenuacao = coeficienteAtenuacao;
         this.frequenciaOperacao = frequenciaOperacao;
     }
 
@@ -32,31 +32,11 @@ public class ITU extends Problema {
         for (Celula c : this.planta.celulas) {
             for (PontoAcesso pa : this.planta.pas) {
 
-                int contador = 0;
-                for (Parede p : this.planta.paredes) {
-                    contador += (interseccao(pa.getX(), pa.getY(), c.getX() + this.planta.discretizacao / 2, c.getY() + this.planta.discretizacao / 2, p.getReta().getX1(), p.getReta().getY1(), p.getReta().getX2(), p.getReta().getY2()));
-                }
-
-                if (tipoAmbiente == 0) {
-                    n = 28;
-                } else if (tipoAmbiente == 1) {
-                    n = 30;
-                } else {
-                    n = 22;
-                }
-
                 db = this.potenciaTransmitida;
                 db -= 20 * Math.log10(frequenciaOperacao);
-                db -= (n * Math.log10(Math.sqrt(Math.pow(pa.getX() - (c.getX() + this.planta.discretizacao / 2), 2) + Math.pow(pa.getY() - (c.getY() + this.planta.discretizacao / 2), 2))));
+                db -= (this.coeficienteAtenuacao * Math.log10(Math.sqrt(Math.pow(pa.getX() - (c.getX() + this.planta.discretizacao / 2), 2) + Math.pow(pa.getY() - (c.getY() + this.planta.discretizacao / 2), 2))));
 
-                if (tipoAmbiente == 0) {
-                    db -= 4 * contador;
-                } else if (tipoAmbiente == 1) {
-                    db -= 15 + (contador - 1);
-                } else {
-                    db -= 6 + 3 * (contador - 1);
-                }
-
+                
                 db -= -28;
 
                 if (db > c.getPotencia()) {

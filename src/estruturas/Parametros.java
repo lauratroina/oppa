@@ -19,11 +19,15 @@ public class Parametros {
     private int frequenciaOperacaoITU;
     private HashMap<String, Double> perdasCost;
     private int potenciaTransmitida;
-    private int tipoAmbienteITU;
     private int coberturaDesejada;
     private ArrayList<String> tiposPerdasCost;
+    private double coeficienteAtenuacao;
     
-    public void setParametros(int numeroIndividuos, int numeroGeracoes, double probabilidadeCrossover, double probabilidadeMutacao, int numeroIndividuosSelecionados, boolean elitismo, int metodoCalculo, int taxaDesejada, int taxaAceitavel, double intervaloHillClimbing, int potenciaTransmitida, int coberturaDesejada) {
+    public void setParametros(int numeroIndividuos, int numeroGeracoes, 
+            double probabilidadeCrossover, double probabilidadeMutacao, 
+            int numeroIndividuosSelecionados, boolean elitismo, 
+            int metodoCalculo, int taxaDesejada, int taxaAceitavel, 
+            double intervaloHillClimbing, int potenciaTransmitida, int coberturaDesejada,double coeficienteAtenuacao) {
         this.numeroIndividuos = numeroIndividuos;
         this.numeroGeracoes = numeroGeracoes;
         this.probabilidadeCrossover = probabilidadeCrossover;
@@ -36,10 +40,15 @@ public class Parametros {
         this.intervaloHillClimbing = intervaloHillClimbing;
         this.coberturaDesejada = coberturaDesejada;
         this.potenciaTransmitida = potenciaTransmitida;
+        this.coeficienteAtenuacao = coeficienteAtenuacao;
     }
 
     public int getPotenciaTransmitida(){
         return this.potenciaTransmitida;
+    }
+    
+    public double getCoeficienteAtenuacao(){
+        return coeficienteAtenuacao;
     }
     
     public int getCoberturaDesejada(){
@@ -51,14 +60,6 @@ public class Parametros {
 
     public int getFrequenciaOperacaoITU() {
         return this.frequenciaOperacaoITU;
-    }
-
-    public void setTipoAmbienteITU(int tipoAmbienteITU) {
-        this.tipoAmbienteITU = this.tipoAmbienteITU;
-    }
-
-    public int getTipoAmbienteITU() {
-        return this.tipoAmbienteITU;
     }
 
     public void setPerdasCost(HashMap<String, Double> perdasCost) {

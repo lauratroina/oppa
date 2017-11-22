@@ -2,11 +2,15 @@ package calculo;
 
 import estruturas.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Cost231 extends Problema {
 
+    private double coeficienteAtenuacao;
     
+    public Cost231(double coeficienteAtenuacao) {
+        this.coeficienteAtenuacao = coeficienteAtenuacao;
+    }
+
     @Override
     public double avalia(double individuo[]) {
 
@@ -20,10 +24,10 @@ public class Cost231 extends Problema {
         }
 
         double db = 0;
-        int celulasTavaDesejada = 0, celulasTaxaAceitavel = 0;
+        int celulasTaxaDesejada = 0, celulasTaxaAceitavel = 0;
         for (Celula c : this.planta.celulas) {
             for (PontoAcesso pa : this.planta.pas) {
-                db = this.potenciaTransmitida - 45 - 10 * 1.4 * Math.log10(Math.sqrt(Math.pow(pa.getX() - (c.getX() + this.planta.discretizacao / 2), 2) + Math.pow(pa.getY() - (c.getY() + this.planta.discretizacao / 2), 2)));
+                db = this.potenciaTransmitida - 45 - 10 * this.coeficienteAtenuacao * Math.log10(Math.sqrt(Math.pow(pa.getX() - (c.getX() + this.planta.discretizacao / 2), 2) + Math.pow(pa.getY() - (c.getY() + this.planta.discretizacao / 2), 2)));
 
                 for (Parede p : this.planta.paredes) {
                     db -= interseccao(pa.getX(), pa.getY(), c.getX() + this.planta.discretizacao / 2, c.getY() + this.planta.discretizacao / 2, p.getReta().getX1(), p.getReta().getY1(), p.getReta().getX2(), p.getReta().getY2()) * p.getPerda();
@@ -38,10 +42,10 @@ public class Cost231 extends Problema {
                 celulasTaxaAceitavel++;
             }
             if (c.getPotencia() > this.taxaDesejada) {
-                celulasTavaDesejada++;
+                celulasTaxaDesejada++;
             }
         }
-        double qualidade = (100.0 * (celulasTavaDesejada) / this.planta.celulas.size()) - 1000.0 * (celulasTaxaAceitavel / this.planta.celulas.size());
+        double qualidade = (100.0 * (celulasTaxaDesejada) / this.planta.celulas.size()) - 1000.0 * (celulasTaxaAceitavel / this.planta.celulas.size());
         return qualidade;
     }
 

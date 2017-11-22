@@ -56,7 +56,7 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jbConfig" min="-2" pref="159" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="96" max="-2" attributes="0"/>
-                          <Component id="jbExportar" min="-2" pref="160" max="-2" attributes="0"/>
+                          <Component id="jbVerResultado" min="-2" pref="160" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="jbCalcular" min="-2" pref="160" max="-2" attributes="0"/>
                       </Group>
@@ -78,7 +78,7 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jbConfig" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jbExportar" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jbVerResultado" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jbCalcular" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -131,13 +131,16 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbConfigActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="jbExportar">
+        <Component class="javax.swing.JButton" name="jbVerResultado">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Exportar"/>
+            <Property name="text" type="java.lang.String" value="Ver resultado"/>
             <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
               <Dimension value="[180, 30]"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jbVerResultadoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jbCalcular">
           <Properties>
