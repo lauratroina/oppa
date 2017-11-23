@@ -26,10 +26,10 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     public JanelaPrincipal(Parametros parametros) {
 
         this.parametros = parametros;
-        this.setIconImage(new ImageIcon(getClass().getResource("download.png")).getImage());
         initComponents();
         jbVerResultado.setEnabled(false);
         jbCalcular.setEnabled(false);
+        jbConfig.setEnabled(false);
 
     }
 
@@ -227,9 +227,9 @@ public class JanelaPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jtEntradaXmlActionPerformed
 
     private void jbAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAbrirActionPerformed
-      
+        jbCalcular.setEnabled(false);
         JSpinner spinner = new JSpinner(new SpinnerNumberModel(0.1, 0.0, 5.0, 0.1));
-        JOptionPane.showMessageDialog(null, spinner, "Discretização da planta", 1);
+        JOptionPane.showMessageDialog(null, spinner, "Discretização da planta", JOptionPane.PLAIN_MESSAGE);
         parametros.setDiscretizacao((Double) spinner.getValue());
         File arquivo = null;
         planta = new Planta();
@@ -257,12 +257,16 @@ public class JanelaPrincipal extends javax.swing.JFrame {
 
         double fatorDeCorrecao = Math.min(jPanel1.getWidth() / planta.maximoX, jPanel1.getHeight() / planta.maximoY);
         Graphics g = jPanel1.getGraphics();
+        jPanel1.paint(g);
         DesenhaParedes(planta.paredes, parametros.getDiscretizacao(), fatorDeCorrecao, g);
-
+        jbConfig.setEnabled(true);
 
     }//GEN-LAST:event_jbAbrirActionPerformed
 
     private void jbCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbCalcularActionPerformed
+        jbCalcular.setEnabled(false);
+        jbConfig.setEnabled(false);
+        
 
         if (parametros.getMetodoCalculo() == 1) {
             problema = new ITU(parametros.getCoeficienteAtenuacao(), parametros.getFrequenciaOperacaoITU());
@@ -307,13 +311,15 @@ public class JanelaPrincipal extends javax.swing.JFrame {
         DesenhaHeatMap(problema.planta.celulas, problema.planta.pas, problema.planta.discretizacao, f, g);
         DesenhaParedes(problema.planta.paredes, problema.planta.discretizacao, f, g);
         jbVerResultado.setEnabled(true);
+
+        
     }//GEN-LAST:event_jbCalcularActionPerformed
 
     private void jbVerResultadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbVerResultadoActionPerformed
         String resultado = "\n";
         for (int j = 0; j < melhorResultado.length / 2; j++) {
-            resultado += "Ponto de Acesso " + (j + 1) + ":     x: " + String.format("%.2f", melhorResultado[j])  + "     y:" + String.format("%.2f", melhorResultado[j+1]) +"     \n";
-            
+            resultado += "Ponto de Acesso " + (j + 1) + ":     x: " + String.format("%.2f", melhorResultado[j]) + "     y:" + String.format("%.2f", melhorResultado[j + 1]) + "     \n";
+
         }
         resultado += "\n";
         JOptionPane.showMessageDialog(null, resultado, "Resultado", JOptionPane.PLAIN_MESSAGE);

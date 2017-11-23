@@ -399,14 +399,14 @@ public class JanelaAjustes extends javax.swing.JFrame {
     private void jtMetodoCalculoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtMetodoCalculoActionPerformed
         if (this.jtMetodoCalculo.getSelectedIndex() == 1) {
             JSpinner spinner = new JSpinner(new SpinnerNumberModel(2400, 900, 3000, 100));
-            JOptionPane.showMessageDialog(null, spinner, "Frequência de Operação", 1);
+            JOptionPane.showMessageDialog(null, spinner, "Frequência de Operação", JOptionPane.PLAIN_MESSAGE);
         } else if (this.jtMetodoCalculo.getSelectedIndex() == 2) {
 
             HashMap<String, Double> perdas = new HashMap<String, Double>();
 
             for (String tipoPerda : parametros.getTiposPerdaCost()) {
                 JSpinner spinner = new JSpinner(new SpinnerNumberModel(5, 0, 500, 0.1));
-                JOptionPane.showMessageDialog(null, spinner, "Valor da perda " + tipoPerda, 1);
+                JOptionPane.showMessageDialog(null, spinner, "Valor da perda " + tipoPerda, JOptionPane.PLAIN_MESSAGE);
                 perdas.put(tipoPerda, (Double) spinner.getValue());
             }
 
